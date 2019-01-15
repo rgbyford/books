@@ -1,18 +1,15 @@
-//const axios = require("axios");
-//const server=require ('../server');
 const api2 = require ('../routes/api2.js');
 const router = require("express").Router();
-//const router = express.Router();
-
 
 router.get("/books", (req, res) => {
   console.log("server get books");
   console.log ("Books wanted: ", req.query);
   api2.makeApiCall(req.query, res);
-  // .then ((results) => {
-  //   res.json (results);
-  //   console.log("get books returned: ", results);
-  // });
+});
+
+router.post("/books", (req, res) => {
+  console.log ("Book to be saved: ", req.body.params.q);
+  api2.mongoSave (req.body.params.q);
 });
 
 module.exports = router;

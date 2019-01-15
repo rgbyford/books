@@ -3,7 +3,7 @@ import Jumbotron from "./components/Jumbotron";
 import Nav from "./components/Nav";
 import Input from "./components/Input";
 import Button from "./components/Button";
-import API from "./utils/API";
+import {getBooks} from "./utils/API";
 import { BookList, BookListItem } from "./components/BookList";
 import { Container, Row, Col } from "./components/Grid";
 import PortfolioContainer from "./components/PortfolioContainer";
@@ -14,7 +14,6 @@ class App extends Component {
     bookSearch: ""
   };
   
-
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
     // Update the appropriate state
@@ -25,10 +24,10 @@ class App extends Component {
   };
 
   handleFormSubmit = event => {
-    // When the form is submitted, prevent its default behavior, get books update the books state
+    // Prevent default behavior, get books, update the books state
     event.preventDefault();
     console.log("hFS");
-    API.getBooks(this.state.bookSearch)
+    getBooks(this.state.bookSearch)
       .then((res) => {
         console.log ("getBooks returns: ", res.data);
         this.setState({books: res.data});
@@ -83,8 +82,10 @@ class App extends Component {
                       <BookListItem
                         key={index}
                         title={book.title}
+                        description={book.description}
                         href={book.href}
                         thumbnail={book.thumbnail}
+                        id={book.id}
                       />
                     );
                   })}
