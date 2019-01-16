@@ -11,6 +11,10 @@ export function BookList({ children }) {
   return <ul className="list-group">{children}</ul>;
 }
 
+export function SavedList({ children }) {
+  return <ul className="list-group">{children}</ul>;
+}
+
 
 export class BookListItem extends Component {
   state = {

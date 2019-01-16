@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import NavTabs from "./NavTabs";
 import Search from "./pages/Search";
 import Saved from "./pages/Saved";
+//import SearchPage from "../App.js";
+//import SavedPage from "../App.js";
 
 class Portfolio extends Component {
   state = {
-    currentPage: "Home"
+    currentPage: "Search"
   };
 
   handlePageChange = page => {

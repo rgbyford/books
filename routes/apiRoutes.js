@@ -4,12 +4,17 @@ const router = require("express").Router();
 router.get("/books", (req, res) => {
   console.log("server get books");
   console.log ("Books wanted: ", req.query);
-  api2.makeApiCall(req.query, res);
+  api2.googleBooks(req.query, res);
 });
 
 router.post("/books", (req, res) => {
   console.log ("Book to be saved: ", req.body.params.q);
   api2.mongoSave (req.body.params.q);
+});
+
+router.get("/saved", (req, res) => {
+  console.log("server get saved");
+  api2.mongoGetSaved (res);
 });
 
 module.exports = router;

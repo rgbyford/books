@@ -3,12 +3,12 @@ import Jumbotron from "./components/Jumbotron";
 import Nav from "./components/Nav";
 import Input from "./components/Input";
 import Button from "./components/Button";
-import {getBooks} from "./utils/API";
-import { BookList, BookListItem } from "./components/BookList";
+import {getBooks, getSaved} from "./utils/API";
+import { BookList, BookListItem, SavedList } from "./components/BookList";
 import { Container, Row, Col } from "./components/Grid";
-import PortfolioContainer from "./components/PortfolioContainer";
+import Portfolio from "./components/PortfolioContainer";
 
-class App extends Component {
+export class SearchPage extends Component {
   state = {
     books: [],
     bookSearch: ""
@@ -35,12 +35,10 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  
-  render() {
+    render() {
     return (
       <div>
-
-      <PortfolioContainer />;
+      <Portfolio />;
         <Nav />
         <Jumbotron />
         <Container>
@@ -95,6 +93,61 @@ class App extends Component {
           </Row>
         </Container>
       </div>
+    );
+  }
+}
+
+export class SavedPage extends Component {
+  state = {
+    savedBooks: [],
+  };
+
+  componentDidMount () {
+    console.log ("SavedPage cDM");
+    let savedBooks = getSaved ();
+    this.setState({savedBooks: savedBooks});
+  }
+
+  render() {
+    return (
+      <div>
+      <Portfolio />;
+        <Nav />
+        <Jumbotron />
+        <Container>
+          <Row>
+            <Col size="xs-12">
+              {!this.state.savedBooks.length ? (
+                <h1 className="text-center">No saved books</h1>
+              ) : (
+                <SavedList>
+                  {this.state.savedBooks.map((book, index) => {
+                    return (
+                      <BookListItem
+                        key={index}
+                        title={book.title}
+                        description={book.description}
+                        href={book.href}
+                        thumbnail={book.thumbnail}
+                        id={book.id}
+                      />
+                    );
+                  })}
+                </SavedList>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+       <SearchPage>
+      </SearchPage>
     );
   }
 }

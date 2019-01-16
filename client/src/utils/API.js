@@ -11,6 +11,16 @@ export function getBooks (query) {
   });
 }
 
+export function getSaved () {
+  console.log ("getSaved");
+  return new Promise((resolve, reject) => {
+    //    let query_temp = "Harry Potter";
+    resolve(axios.get("/api/saved", {
+      params: {}
+    }));
+  });
+}
+
 export function saveBook (title) {
   console.log ("sB: ", title);
   return new Promise((resolve, reject) => {

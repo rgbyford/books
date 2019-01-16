@@ -1,13 +1,17 @@
+//const appStuff = require("../server.js");
+//import appListen from "../server.js";
+//const appStuff = require ("../server.js");
+
 const mongoose = require("mongoose");
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooks";
 
+let mongoConn = false;
+
+//function mongoConnect () {
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 });
-
-let Book;
-let aoAlreadySaved = [];
-console.log("init aoAS");
+//}
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -23,12 +27,22 @@ db.once("open", async function () {
     });
     Book = mongoose.model("Book", BookSchema);
     aoAlreadySaved = await getSaved();
-    console.log("AS len:", aoAlreadySaved.length);
+//    appStuff.appEmit();
+//    appStuff.appListen ();
+//    console.log("AS len:", aoAlreadySaved.length);
 });
 
-const getSaved = async () => {
-    return (Book.find());
-};
+let Book;
+let aoAlreadySaved = [];
+console.log("init aoAS");
+
+async function getSaved () {
+    if (mongoConn === false) {
+        setTimeout(getSaved, 100); /* this checks the flag every 100 milliseconds*/
+    } else {
+        return (Book.find());
+    }
+}
 
 function insertBook(oBook) {
     let dbBook = new Book(oBook);
@@ -58,4 +72,5 @@ function insertBook(oBook) {
 module.exports = {
     insertBook: insertBook,
     getSaved: getSaved
+//    mongoConnect: mongoConnect
 }
